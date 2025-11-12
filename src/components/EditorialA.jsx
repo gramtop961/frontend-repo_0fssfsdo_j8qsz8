@@ -1,10 +1,34 @@
 import { motion } from 'framer-motion'
 
 export default function EditorialA() {
+  const shots = [
+    {
+      src: 'https://images.unsplash.com/photo-1669806408023-0c2ebb27fe67?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxXaW5kYnJlYWtlciUyMGRldGFpbHxlbnwwfDB8fHwxNzYyOTYxMDY3fDA&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80',
+      alt: 'Windbreaker detail',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1605408499391-6368c628ef42?q=80&w=1600&auto=format&fit=crop',
+      alt: 'Studio portrait',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1600&auto=format&fit=crop',
+      alt: 'Textured fabric',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1701964619775-b18422290cf9?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxUZXh0dXJlZCUyMGZhYnJpY3xlbnwwfDB8fHwxNzYyOTYxMDY4fDA&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80',
+      alt: 'Runway stride',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1600&auto=format&fit=crop',
+      alt: 'Monochrome pose',
+    },
+  ]
+
   return (
     <section className="relative py-24">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white" />
-      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-[1.1fr,0.9fr] gap-10 items-start">
+        {/* Left: video hero */}
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-gray-100">
           <motion.video
             initial={{ scale: 1.05, opacity: 0 }}
@@ -36,6 +60,8 @@ export default function EditorialA() {
             <p className="mt-1 text-sm text-white/80">Movement studies in technical fabrics. Minimal, functional, precise.</p>
           </motion.div>
         </div>
+
+        {/* Right: editorial mosaic */}
         <div>
           <motion.h3
             initial={{ opacity: 0, y: 12 }}
@@ -55,21 +81,33 @@ export default function EditorialA() {
           >
             A calm palette of onyx, bone, and sand. Elevated basics cut with intention. Utility details hidden in plain sight.
           </motion.p>
+
           <div className="mt-6 grid grid-cols-3 gap-3">
-            {[
-              'https://images.unsplash.com/photo-1520975922215-c0f03d8c4d32?q=80&w=1200&auto=format&fit=crop',
-              'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1200&auto=format&fit=crop',
-              'https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1200&auto=format&fit=crop',
-            ].map((src, i) => (
+            {shots.slice(0,3).map((s, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.1 * i, duration: 0.6 }}
+                transition={{ delay: 0.05 * i, duration: 0.6 }}
                 className="aspect-[4/5] overflow-hidden rounded-xl border border-gray-100"
               >
-                <img src={src} alt={`Editorial ${i+1}`} className="w-full h-full object-cover" />
+                <img src={s.src} alt={s.alt} className="w-full h-full object-cover" />
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            {shots.slice(3).map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.05 * i, duration: 0.6 }}
+                className="aspect-video overflow-hidden rounded-xl border border-gray-100"
+              >
+                <img src={s.src} alt={s.alt} className="w-full h-full object-cover" />
               </motion.div>
             ))}
           </div>
