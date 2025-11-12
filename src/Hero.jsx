@@ -1,18 +1,29 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import Spline from '@splinetool/react-spline'
 
 export default function Hero() {
   const { scrollY } = useScroll()
   const y = useTransform(scrollY, [0, 500], [0, -80])
-  const opacity = useTransform(scrollY, [0, 500], [1, 0.75])
+  const opacity = useTransform(scrollY, [0, 500], [1, 0.8])
+  const scale = useTransform(scrollY, [0, 500], [1, 1.05])
 
   return (
-    <section className="relative h-[92vh] w-full overflow-hidden bg-gradient-to-b from-indigo-50 via-violet-50 to-white">
-      <motion.div style={{ y, opacity }} className="absolute inset-0">
-        <Spline scene="https://prod.spline.design/myxXfbNiwnbTpGFp/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+    <section className="relative h-[92vh] w-full overflow-hidden bg-gradient-to-b from-stone-50 via-zinc-50 to-white">
+      {/* Fabric/cloth visual background with subtle parallax */}
+      <motion.div
+        style={{ y, opacity, scale }}
+        className="absolute inset-0"
+      >
+        <div
+          className="w-full h-full bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1760764541302-e3955fbc6b2b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxjZXJhbWljJTIwcG90dGVyeSUyMGhhbmRtYWRlfGVufDB8MHx8fDE3NjI5MTcyNDJ8MA&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80')",
+          }}
+        />
       </motion.div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/0 to-white pointer-events-none" />
+      {/* Soft gradient veil to keep type legible */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/10 to-white/80 pointer-events-none" />
 
       <div className="relative z-10 h-full flex items-center">
         <div className="max-w-6xl mx-auto px-6">
@@ -20,7 +31,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="text-5xl md:text-7xl font-black tracking-tight text-gray-900"
+            className="text-5xl md:text-7xl font-black tracking-tight text-zinc-900"
           >
             ANOMIE
           </motion.h1>
@@ -28,9 +39,9 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.8, ease: 'easeOut' }}
-            className="mt-3 text-lg md:text-2xl text-gray-700"
+            className="mt-3 text-lg md:text-2xl text-zinc-700"
           >
-            STANDARD DEVIATION
+            STANDARD DEVIATION — Menswear
           </motion.p>
 
           <motion.div
@@ -39,10 +50,10 @@ export default function Hero() {
             transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
             className="mt-8 flex gap-4"
           >
-            <a href="#collection" className="px-6 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition-colors">
+            <a href="#collection" className="px-6 py-3 rounded-full bg-zinc-900 text-white hover:bg-zinc-800 transition-colors">
               Shop Collection
             </a>
-            <a href="#about" className="px-6 py-3 rounded-full bg-white/70 backdrop-blur border border-gray-200 text-gray-900 hover:bg-white transition-colors">
+            <a href="#about" className="px-6 py-3 rounded-full bg-white/70 backdrop-blur border border-zinc-200 text-zinc-900 hover:bg-white transition-colors">
               Learn More
             </a>
           </motion.div>
