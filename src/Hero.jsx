@@ -3,27 +3,26 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 export default function Hero() {
   const { scrollY } = useScroll()
   const y = useTransform(scrollY, [0, 500], [0, -80])
-  const opacity = useTransform(scrollY, [0, 500], [1, 0.8])
-  const scale = useTransform(scrollY, [0, 500], [1, 1.05])
+  const opacity = useTransform(scrollY, [0, 500], [1, 0.85])
+  const scale = useTransform(scrollY, [0, 500], [1, 1.06])
 
   return (
     <section className="relative h-[92vh] w-full overflow-hidden bg-gradient-to-b from-stone-50 via-zinc-50 to-white">
       {/* Fabric/cloth visual background with subtle parallax */}
-      <motion.div
-        style={{ y, opacity, scale }}
-        className="absolute inset-0"
-      >
-        <div
-          className="w-full h-full bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1760764541302-e3955fbc6b2b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxjZXJhbWljJTIwcG90dGVyeSUyMGhhbmRtYWRlfGVufDB8MHx8fDE3NjI5MTcyNDJ8MA&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80')",
-          }}
+      <motion.div style={{ y, opacity, scale }} className="absolute inset-0">
+        <video
+          className="w-full h-full object-cover"
+          src="https://cdn.coverr.co/videos/coverr-white-fabric-5014/1080p.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="https://images.unsplash.com/photo-1760764541302-e3955fbc6b2b?ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80"
         />
       </motion.div>
 
       {/* Soft gradient veil to keep type legible */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/10 to-white/80 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/10 to-white/80 pointer-events-none" />
 
       <div className="relative z-10 h-full flex items-center">
         <div className="max-w-6xl mx-auto px-6">

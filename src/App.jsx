@@ -6,6 +6,9 @@ import ProductCard from './components/ProductCard'
 import CartDrawer from './components/CartDrawer'
 import CollectionFilters from './components/CollectionFilters'
 import SectionMarquee from './components/SectionMarquee'
+import LookbookStrip from './components/LookbookStrip'
+import ParallaxGrid from './components/ParallaxGrid'
+import EditorialA from './components/EditorialA'
 import Footer from './components/Footer'
 
 const API = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
@@ -29,23 +32,24 @@ function App() {
     return id
   }, [])
 
-  useEffect(() => {
-    const load = async () => {
-      setLoading(true)
-      setError('')
-      try {
-        const res = await fetch(`${API}/products`)
-        if (!res.ok) throw new Error('Failed to load products')
-        const data = await res.json()
-        setProducts(Array.isArray(data) ? data : [])
-      } catch (e) {
-        console.error(e)
-        setError('Could not load products')
-      } finally {
-        setLoading(false)
-      }
+  const fetchProducts = async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch(`${API}/products`)
+      if (!res.ok) throw new Error('Failed to load products')
+      const data = await res.json()
+      setProducts(Array.isArray(data) ? data : [])
+    } catch (e) {
+      console.error(e)
+      setError('Could not load products')
+    } finally {
+      setLoading(false)
     }
-    load()
+  }
+
+  useEffect(() => {
+    fetchProducts()
   }, [])
 
   useEffect(() => {
@@ -78,13 +82,24 @@ function App() {
   }
 
   const filtered = useMemo(() => {
-    return products.filter(p => {
+    let list = products.filter(p => {
       if (filters.category && p.category !== filters.category) return false
       if (filters.size && !(p.sizes || []).includes(filters.size)) return false
       if (typeof filters.min === 'number' && p.price < filters.min) return false
       if (typeof filters.max === 'number' && p.price > filters.max) return false
+      if (filters.search) {
+        const q = filters.search.toLowerCase()
+        const txt = `${p.title} ${p.description || ''} ${p.category}`.toLowerCase()
+        if (!txt.includes(q)) return false
+      }
       return true
     })
+
+    if (filters.sort === 'price-asc') list.sort((a,b) => a.price - b.price)
+    if (filters.sort === 'price-desc') list.sort((a,b) => b.price - a.price)
+    if (filters.sort === 'title-asc') list.sort((a,b) => a.title.localeCompare(b.title))
+
+    return list
   }, [products, filters])
 
   return (
@@ -93,6 +108,7 @@ function App() {
       <Hero />
 
       <SectionMarquee />
+      <LookbookStrip />
 
       <section id="collection" className="relative py-16">
         <div className="max-w-6xl mx-auto px-6">
@@ -129,9 +145,7 @@ function App() {
                       onClick={async () => {
                         try {
                           await fetch(`${API}/seed`, { method: 'POST' })
-                          const res = await fetch(`${API}/products`)
-                          const data = await res.json()
-                          setProducts(Array.isArray(data) ? data : [])
+                          await fetchProducts()
                         } catch (e) {
                           console.error(e)
                         }
@@ -169,6 +183,9 @@ function App() {
           className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white"
         />
       </section>
+
+      <ParallaxGrid />
+      <EditorialA />
 
       <section id="about" className="py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
